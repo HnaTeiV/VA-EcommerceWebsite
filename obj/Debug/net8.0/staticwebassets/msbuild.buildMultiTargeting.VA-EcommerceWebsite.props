@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\VA-EcommerceWebsite.props" />
+</Project>

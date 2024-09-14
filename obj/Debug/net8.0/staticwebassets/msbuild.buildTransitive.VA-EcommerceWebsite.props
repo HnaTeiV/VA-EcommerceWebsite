@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\VA-EcommerceWebsite.props" />
+</Project>
