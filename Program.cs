@@ -1,8 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using VA_EcommerceWebsite.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<VAEcommerceContext>(options=>{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("VAEcommerce"));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
