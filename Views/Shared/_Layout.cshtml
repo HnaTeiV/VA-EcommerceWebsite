@@ -60,7 +60,7 @@
     <!-- Featured End -->
 
 
-    @await Html.PartialAsync("_Categories")
+    @await Html.PartialAsync("_Header")
 
 
     <!-- Offer Start -->
@@ -91,7 +91,7 @@
     <!-- Offer End -->
 
 
-    @await Html.PartialAsync("_Products")
+    @RenderBody()
 
     @await Html.PartialAsync("_Footer")
     
