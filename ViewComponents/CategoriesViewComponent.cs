@@ -8,7 +8,7 @@ namespace VA_EcommerceWebsite.ViewComponents
         private readonly VAEcommerceContext db;
         public CategoriesViewComponent(VAEcommerceContext context)=> db=context;
         public IViewComponentResult Invoke(){
-            var data= db.Loais.Select(lo=> new MenuLoaiVM{MaLoai = lo.MaLoai, TenLoai=lo.TenLoai, SoLuong=lo.HangHoas.Count});
+            var data= db.Loais.Select(lo=> new MenuLoaiVM{MaLoai = lo.MaLoai, TenLoai=lo.TenLoai, SoLuong=lo.HangHoas.Count}).OrderBy(p=>p.TenLoai);
             return View("CategoriesVM", data);
         }
     }

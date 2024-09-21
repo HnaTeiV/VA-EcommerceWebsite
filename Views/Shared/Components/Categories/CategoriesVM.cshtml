@@ -9,7 +9,7 @@
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
                         @foreach(var item in Model){
                             
-                            <a href="" class="nav-item nav-link d-print-inline-block">@item.TenLoai</a>
+                            <a asp-controller="HangHoa" asp-action="index" asp-route-loai="@item.MaLoai" class="nav-item nav-link d-print-inline-block">@item.TenLoai</a>
                             <span class="d-print-inline-block">(@item.SoLuong)</span>
                             
                             
