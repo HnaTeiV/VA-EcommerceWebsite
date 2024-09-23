@@ -1,4 +1,5 @@
 ﻿@{
+   
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,3 +7,13 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+@section Scripts {
+    <script>
+      $("#searchButton").click(function() {
+        let query = $("#searchText").val(); // Retrieve the value of the input
+        let url = `/HangHoa/Search?query=` + query;
+        window.location.href = url;
+        });
+    </script>
+}
+

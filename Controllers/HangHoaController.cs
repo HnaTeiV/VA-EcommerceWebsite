@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using VA_EcommerceWebsite.Data;
 using VA_EcommerceWebsite.ViewModels;
 namespace VA_EcommerceWebsite.Controllers
@@ -22,6 +23,24 @@ namespace VA_EcommerceWebsite.Controllers
                 MoTaNgan=p.MoTaDonVi??"",
                 MaLoai=p.MaLoaiNavigation.TenLoai
             });
+            return View(result);
+        }
+        public IActionResult Search(string? query){
+            var hangHoas=db.HangHoas.AsQueryable();
+
+            if(query !=null)
+            {
+                hangHoas=hangHoas.Where(p=> p.TenHh.Contains(query));
+            }
+            var result= hangHoas.Select(p=> new HangHoaVM{
+                 MaHh=p.MaHh,
+                TenHh=p.TenHh,
+                DonGia=p.DonGia ?? 0,
+                Hinh=p.Hinh??"",
+                MoTaNgan=p.MoTaDonVi??"",
+                MaLoai=p.MaLoaiNavigation.TenLoai
+            });
+
             return View(result);
         }
     }

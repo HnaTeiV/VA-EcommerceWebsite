@@ -37,14 +37,16 @@
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
-                <form action="">
+                <form asp-action="Search" asp-controller="HangHoa">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input id="searchText" type="search" class="form-control" placeholder="Search for products" name="query">
+                        <button >
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
-                                <i class="fa fa-search"></i>
+                                <i id="searchButton" class="fa fa-search"></i>
                             </span>
                         </div>
+                        </button>
                     </div>
                 </form>
             </div>
