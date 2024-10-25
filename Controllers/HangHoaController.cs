@@ -21,7 +21,8 @@ namespace VA_EcommerceWebsite.Controllers
                 DonGia=p.DonGia ?? 0,
                 Hinh=p.Hinh??"",
                 MoTaNgan=p.MoTaDonVi??"",
-                MaLoai=p.MaLoaiNavigation.TenLoai
+                MaLoaiNavigation=p.MaLoaiNavigation.TenLoai,
+                LuotXem=p.SoLanXem
             });
             return View(result);
         }
@@ -38,7 +39,7 @@ namespace VA_EcommerceWebsite.Controllers
                 DonGia=p.DonGia ?? 0,
                 Hinh=p.Hinh??"",
                 MoTaNgan=p.MoTaDonVi??"",
-                MaLoai=p.MaLoaiNavigation.TenLoai
+                MaLoaiNavigation=p.MaLoaiNavigation.TenLoai
             });
 
             return View(result);
