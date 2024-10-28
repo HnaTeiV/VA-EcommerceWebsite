@@ -11,5 +11,6 @@ namespace VA_EcommerceWebsite.ViewModels
         public string MoTa{get;set;}
         public string MaLoaiNavigation{get;set;}
         public int LuotXem{get;set;}
+        // Add other properties as needed
     }
 }

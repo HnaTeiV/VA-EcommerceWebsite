@@ -251,3 +251,8 @@ D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\runtimes\win\lib\net7.0\Microsoft.Wi
 D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\VSC\VA-EcommerceWebsite\obj\Debug\net8.0\VA-EcommerceWebsite.MvcApplicationPartsAssemblyInfo.cs

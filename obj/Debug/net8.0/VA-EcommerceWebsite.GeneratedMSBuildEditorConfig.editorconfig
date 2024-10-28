@@ -26,8 +26,8 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\VSC\VA-EcommerceWebsite
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/VSC/VA-EcommerceWebsite/Views/DetailHangHoa/GetDetailHangHoa.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWlsSGFuZ0hvYVxHZXREZXRhaWxIYW5nSG9hLmNzaHRtbA==
+[D:/VSC/VA-EcommerceWebsite/Views/DetailHangHoa/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWlsSGFuZ0hvYVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/VSC/VA-EcommerceWebsite/Views/DetailHangHoa/NotFound.cshtml]
