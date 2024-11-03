@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using VA_EcommerceWebsite.Data;
 using Microsoft.OpenApi.Models;
+using VA_EcommerceWebsite.Interface;
+using VA_EcommerceWebsite.Repository;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -30,6 +32,9 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+
+builder.Services.AddScoped<IHangHoaRepository, HangHoaRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,6 +54,8 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty; // This makes the Swagger UI available at the app's root
     });
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

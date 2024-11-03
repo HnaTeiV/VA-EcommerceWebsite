@@ -3,33 +3,28 @@ using Microsoft.IdentityModel.Tokens;
 using VA_EcommerceWebsite.Data;
 using VA_EcommerceWebsite.ViewModels;
 using VA_EcommerceWebsite.Mappers;
+using VA_EcommerceWebsite.Interface;
 
 namespace VA_EcommerceWebsite.Controllers
 {
     public class HangHoaController:Controller
     {
         private readonly VAEcommerceContext db;
-        public HangHoaController(VAEcommerceContext context)=> db=context;
+        private readonly IHangHoaRepository _hangHoaRepo;
+        public HangHoaController(VAEcommerceContext context,IHangHoaRepository hangHoaRepository) {
+            _hangHoaRepo= hangHoaRepository;
+            db=context;
+        } 
+
         [HttpGet("{loai?}")]
-        public IActionResult Index(int? loai){
-            var hangHoas=db.HangHoas.AsQueryable();
-            if(loai.HasValue)
-            {
-                hangHoas=hangHoas.Where(p=>p.MaLoai==loai.Value);
-            }
-            var result=hangHoas.Select(p=> p.ToHangHoaDto());
+        public async Task<IActionResult> Index(int? loai){
+            var result = await _hangHoaRepo.GetAllAsync(loai);
             return View(result);
         }
         [HttpGet("HangHoa/Search")]
         [HttpPost("HangHoa/Search")]
-        public IActionResult Search(string? query){
-            var hangHoas=db.HangHoas.AsQueryable();
-
-            if(query != null)
-            {
-                hangHoas=hangHoas.Where(p=> p.TenHh.Contains(query));
-            }
-            var result= hangHoas.Select(p=> p.ToSearchHangHoaDto());
+        public async Task<IActionResult> Search(string? query){
+            var result = await _hangHoaRepo.SearchAsync(query);
 
             return View(result);
         }

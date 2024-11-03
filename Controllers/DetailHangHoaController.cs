@@ -4,6 +4,7 @@ using VA_EcommerceWebsite.Data;
 using VA_EcommerceWebsite.ViewModels;
 using System.Collections.Generic;
 using VA_EcommerceWebsite.Mappers;
+using VA_EcommerceWebsite.Interface;
 
 namespace VA_EcommerceWebsite.Controllers
 {
@@ -11,23 +12,28 @@ namespace VA_EcommerceWebsite.Controllers
     {
 
         private readonly VAEcommerceContext db;
-        public DetailHangHoaController(VAEcommerceContext context) => db = context;
+        private readonly IHangHoaRepository _hangHoaRepo;
+        public DetailHangHoaController(VAEcommerceContext context,IHangHoaRepository hangHoaRepository){
+            _hangHoaRepo=hangHoaRepository;
+            db = context;
+        } 
         [HttpGet("DetailHangHoa/{id?}")]
-        public IActionResult Index(int? id)
+        public async Task<IActionResult> Index(int? id)
         {
-           var result=db.HangHoas.FirstOrDefault(p=>p.MaHh==id.Value);
-           if(result==null) return View("NotFound");
-            result.SoLanXem += 1;
-           db.SaveChanges();
-           var hangHoaItem=result.ToDetailHangHoaDto();
-
-           List<HangHoaVM> hanghoaList = db.HangHoas.Where(p=>p.MaLoai==hangHoaItem.MaLoai).Select(p=> p.ToDetailHangHoaDto()).ToList();
-            var combineObject= new ObjectAndListObjectHangHoa{
-                HangHoaItem= hangHoaItem,
-                HangHoaList= hanghoaList
-            };
-
-           return View(combineObject);
+            if(id.HasValue)
+            {
+                var hangHoaItem =await _hangHoaRepo.GetHangHoaByIdAsync(id.Value);
+                List<HangHoaVM> hanghoaList = db.HangHoas.Where(p => p.MaLoai == hangHoaItem.MaLoai).Select(p => p.ToDetailHangHoaDto()).ToList();
+                var combineObject = new ObjectAndListObjectHangHoa{
+                    HangHoaItem = hangHoaItem,
+                    HangHoaList= hanghoaList
+                };
+                return View(combineObject);
+            }
+            else{
+                return View("NotFound");
+            }
+           
         }
     }
 }
