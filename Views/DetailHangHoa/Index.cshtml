@@ -28,8 +28,9 @@
 
     <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet"> <!-- Add this line if you have custom styles -->
+    <link href="~/css/custom.css" rel="stylesheet"> <!-- Add this line if you have custom styles -->
     <!-- Customized Bootstrap Stylesheet -->
+
     <link href="~/css/style.css" rel="stylesheet">
 
 
@@ -38,17 +39,6 @@
 <body>
     @await Html.PartialAsync("_Header");
     <!-- Page Header Start -->
-    <div class="container-fluid bg-secondary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Shop Detail</h1>
-            <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">Shop Detail</p>
-            </div>
-        </div>
-    </div>
-    <!-- Page Header End -->
 
 
     <!-- Shop Detail Start -->
@@ -85,23 +75,24 @@
                 <h3 class="font-weight-semi-bold mb-4">$@Model.HangHoaItem.DonGia</h3>
                 <p class="mb-4">@Model.HangHoaItem.MoTaNgan</p>
                 <p class="mb-4 fas fa-eye">@Model.HangHoaItem.LuotXem</p>
-
+                <form  asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.HangHoaItem.MaHh" >
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">
-                            <button onclick="decreaseQuantity()" class="btn btn-primary btn-minus">
+                            <button onclick="decreaseQuantity()" class="btn btn-primary btn-minus" type="button">
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input id="orderNumber" type="text" class="form-control bg-secondary text-center" value="1">
+                        <input id="orderNumber" type="text" name="quantity" class="form-control bg-secondary text-center" value="1">
                         <div class="input-group-btn">
-                            <button onclick="increaseQuantity()" class="btn btn-primary btn-plus">
+                            <button onclick="increaseQuantity()" class="btn btn-primary btn-plus" type="button">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                    <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1" type="submit"></i> Add To Cart</button>
                 </div>
+                </form> 
                 <div class="d-flex pt-2">
                     <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
                     <div class="d-inline-flex">

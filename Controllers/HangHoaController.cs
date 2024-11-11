@@ -16,7 +16,7 @@ namespace VA_EcommerceWebsite.Controllers
             db=context;
         } 
 
-        [HttpGet("{loai?}")]
+        [HttpGet("HangHoa/{loai?}")]
         public async Task<IActionResult> Index(int? loai){
             var result = await _hangHoaRepo.GetAllAsync(loai);
             return View(result);
