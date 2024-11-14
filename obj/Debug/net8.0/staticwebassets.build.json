@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3XbPmSAffRDWNyIuB12+7eQ3DAKP8VA2JEHQ3VthYIQ=",
+  "Hash": "pac9qXQ7Up/RnTrB7wpZXvILWeuGNml3SyQFe9qAOcM=",
   "Source": "VA-EcommerceWebsite",
   "BasePath": "_content/VA-EcommerceWebsite",
   "Mode": "Default",
@@ -6437,6 +6437,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\index.html"
+    },
+    {
+      "Identity": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\js\\cart.js",
+      "SourceId": "VA-EcommerceWebsite",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\",
+      "BasePath": "_content/VA-EcommerceWebsite",
+      "RelativePath": "js/cart.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\cart.js"
     },
     {
       "Identity": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\js\\main.js",

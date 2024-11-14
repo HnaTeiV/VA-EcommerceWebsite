@@ -54,6 +54,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2Fyb3VzZWxcQ2Fyb3VzZWxWTS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/VSC/VA-EcommerceWebsite/Views/Shared/Components/Cart/Cart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2FydFxDYXJ0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/VSC/VA-EcommerceWebsite/Views/Shared/Components/Categories/CategoriesVM.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcmllc1xDYXRlZ29yaWVzVk0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

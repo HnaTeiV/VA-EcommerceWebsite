@@ -3,6 +3,7 @@ using VA_EcommerceWebsite.Data;
 using VA_EcommerceWebsite.ViewModels;
 namespace VA_EcommerceWebsite.ViewComponents
 {
+    [ViewComponent]
     public class CategoriesViewComponent : ViewComponent
     {
         private readonly VAEcommerceContext db;

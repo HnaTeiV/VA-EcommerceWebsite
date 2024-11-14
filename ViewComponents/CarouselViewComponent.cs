@@ -3,6 +3,7 @@ using VA_EcommerceWebsite.ViewModels;
 
 namespace VA_EcommerceWebsite.ViewComponents
 {
+    [ViewComponent]
     public class CarouselViewComponent : ViewComponent
     {
         public IViewComponentResult Invoke()

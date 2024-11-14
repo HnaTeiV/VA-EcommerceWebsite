@@ -64,16 +64,16 @@
                             <th>Remove</th>
                         </tr>
                     </thead>
-                    <tbody class="align-middle">
+                    <tbody>
                         @if (Model != null)
                         {   
                             @foreach (var item in Model)
                             {
-                                <tr>
+                                <tr class="trItem">
                                     <td class="align-middle">@item.TenHh</td>
                                     <td class="align-middle"><img src="~/Hinh/HangHoa/@item.Hinh" alt="@item.TenHh"
                                             style="width: 50px;"> @item.TenHh</td>
-                                    <td id="Cost" class="align-middle">$@item.DonGia</td>
+                                    <td class="align-middle cost">$@item.DonGia</td>
                                     <td class="align-middle">
                                         <div class="input-group quantity mx-auto" style="width: 100px;">
                                             <div class="input-group-btn">
@@ -90,8 +90,8 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td onchange="UpdateMoney(this)" id="CartItemCashTotal" class="align-middle">$@item.ThanhTien</td>
-                                    <td class="align-middle"> <a asp-controller="Cart" asp-action="RemoveCart" asp-route-id="@item.MaHh" class="btn btn-sm btn-primary">
+                                    <td id="cartItemCashTotal"  class="align-middle cartItemCashTotal">$@item.ThanhTien</td>
+                                    <td class="align-middle"> <a asp-controller="Cart" asp-action="RemoveCart" asp-route-id="@item.MaHh" class="btn btn-sm btn-primary btn-delete">
                                             <i class="fa fa-times"></i>
                                         </a></td>
                                 </tr>
@@ -129,13 +129,13 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 id='shipping' class="font-weight-medium">$10</h6>
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">$160</h5>
+                            <h5 id="totalCart" class="font-weight-bold">$0</h5>
                         </div>
                         <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
                     </div>
@@ -165,44 +165,7 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script async>
-        document.querySelectorAll('.btn-minus, .btn-plus').forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.stopPropagation(); // Prevent event bubbling
-                updateQuantity(this);
-            });
-        });
-
-        function updateQuantity(button) {
-            const quantityInput = button.closest('.input-group').querySelector('.quantity-input');
-            let currentQuantity = Number(quantityInput.value);
-
-            // Determine the change based on the button clicked
-            const change = 0;
-
-            // Update quantity based on the change value
-            currentQuantity = currentQuantity + change;
-
-            // Ensure quantity does not go below 0
-            if (currentQuantity < 0) {
-                currentQuantity = 0;
-            }
-
-            // Set the new quantity value
-            quantityInput.value = currentQuantity;
-
-            // Call TotalMoneyOfItem to update the total price
-            TotalMoneyOfItem(quantityInput);
-        }
-
-        const TotalMoneyOfItem = (quantityInput) => {
-            var currentQuantity = Number(quantityInput.value);
-            const cost = Number(quantityInput.closest('tr').querySelector('#Cost').innerHTML.replace('$', '').replace(',', '.'));
-            let total = currentQuantity * cost;
-            quantityInput.closest('tr').querySelector('#CartItemCashTotal').innerHTML = "$" + total;
-        }
-        
-    </script>
+    <script src="js/cart.js" async></script>
 </body>
 
 </html>

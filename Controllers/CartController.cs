@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using VA_EcommerceWebsite.Mappers;
 namespace VA_EcommerceWebsite.Controllers{
     public class CartController : Controller{
-        const string CART_KEY="MYCART";
+
         private readonly VAEcommerceContext db;
         public CartController(VAEcommerceContext context){
             db = context;
         }
-        public List<CartItemVM> Cart => HttpContext.Session.Get<List<CartItemVM>>(CART_KEY) ?? new List<CartItemVM>();
+        public List<CartItemVM> Cart => HttpContext.Session.Get<List<CartItemVM>>(MySetting.CART_KEY) ?? new List<CartItemVM>();
 
         [HttpGet("Cart")]
         public IActionResult Index(){
@@ -35,7 +35,7 @@ namespace VA_EcommerceWebsite.Controllers{
             else{
                 item.SoLuong+= quantity;
             }
-            HttpContext.Session.Set(CART_KEY, gioHang);
+            HttpContext.Session.Set(MySetting.CART_KEY, gioHang);
             return RedirectToAction("index");
         }
         [HttpGet("Cart/RemoveCart/{id}")]
@@ -46,7 +46,7 @@ namespace VA_EcommerceWebsite.Controllers{
             if (item != null)
             {
                 gioHang.Remove(item);
-                HttpContext.Session.Set(CART_KEY, gioHang);
+                HttpContext.Session.Set(MySetting.CART_KEY, gioHang);
             }
             
             return RedirectToAction("index");
