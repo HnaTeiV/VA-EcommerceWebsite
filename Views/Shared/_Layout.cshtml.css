@@ -46,3 +46,10 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+.pagination{
+  display:flex;
+}
+.pagination li{
+  margin-left: 1rem;
+}

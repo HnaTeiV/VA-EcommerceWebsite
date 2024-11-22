@@ -43,6 +43,7 @@ builder.Services.AddSwaggerGen(options =>
 
 
 builder.Services.AddScoped<IHangHoaRepository, HangHoaRepository>();
+builder.Services.AddScoped<IShopRepository,ShopRepositoy>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

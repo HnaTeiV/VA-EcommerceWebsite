@@ -1229,6 +1229,14 @@
       "PackagePath": "staticwebassets\\contact.html"
     },
     {
+      "Id": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\css\\pagedList.css",
+      "PackagePath": "staticwebassets\\css\\pagedList.css"
+    },
+    {
+      "Id": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\css\\shop1.css",
+      "PackagePath": "staticwebassets\\css\\shop1.css"
+    },
+    {
       "Id": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\css\\style.css",
       "PackagePath": "staticwebassets\\css\\style.css"
     },
@@ -1363,6 +1371,10 @@
     {
       "Id": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\js\\main.js",
       "PackagePath": "staticwebassets\\js\\main.js"
+    },
+    {
+      "Id": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\js\\shop.js",
+      "PackagePath": "staticwebassets\\js\\shop.js"
     },
     {
       "Id": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\lib\\easing\\easing.js",

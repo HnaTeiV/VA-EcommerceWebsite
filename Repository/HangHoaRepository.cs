@@ -40,12 +40,12 @@ namespace VA_EcommerceWebsite.Repository
 
         public async Task<List<HangHoaVM>> SearchAsync(string? query)
         {
-            var hangHoas= await db.HangHoas.ToListAsync();
-            if(query != null)
+            var hangHoas = await db.HangHoas.ToListAsync();
+            if (query != null)
             {
-                hangHoas=(List<HangHoa>)hangHoas.Where(p=> p.TenHh.Contains(query));
+                hangHoas = hangHoas.Where(p => p.TenHh.Contains(query)).ToList();
             }
-            var result= hangHoas.Select(p=> p.ToSearchHangHoaDto()).ToList();
+            var result = hangHoas.Select(p => p.ToSearchHangHoaDto()).ToList();
             return result;
         }
 

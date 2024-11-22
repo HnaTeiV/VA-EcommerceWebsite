@@ -47,3 +47,10 @@ button.accept-policy[b-g6lgk3o7ap] {
   white-space: nowrap;
   line-height: 60px;
 }
+
+.pagination[b-g6lgk3o7ap]{
+  display:flex;
+}
+.pagination li[b-g6lgk3o7ap]{
+  margin-left: 1rem;
+}

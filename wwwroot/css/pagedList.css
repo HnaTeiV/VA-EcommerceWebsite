@@ -1,0 +1,11 @@
+.pagination li {
+    margin: 0 5px; /* Adds margin to each pagination item */
+}
+
+.pagination {
+    display: flex; /* Ensures items are displayed inline */
+    justify-content: flex-end; /* Centers pagination items */
+    margin-top: 0.2rem; /* Optional: Add space above the pagination */
+    position: relative;
+    left:70%;
+}

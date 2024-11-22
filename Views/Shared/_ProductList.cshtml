@@ -1,33 +1,28 @@
 @model X.PagedList.IPagedList<VA_EcommerceWebsite.ViewModels.HangHoaVM>;
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Index";
-}
 
 <link href="~/css/pagedList.css" rel="stylesheet">
-<div class="row px-xl-5 pb-3">
+<div id="productContainer" class="row">
     @foreach (var item in Model)
     {
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4" style="border: 5px solid #edf1ff; border-radius: 2rem;">
-                <span style="position:absolute; left:84%;top:2%;z-index:1;" class="fas fa-eye">@item.LuotXem</span>
+        <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+            <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="~/Hinh/HangHoa/@item.Hinh" alt="@item.Hinh">
+                    <img class="img-fluid w-100" src="~/Hinh/HangHoa/@item.Hinh" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3">@item.TenHh</h6>
                     <div class="d-flex justify-content-center">
                         <h6>$@item.DonGia</h6>
-
+                        <h6 class="text-muted ml-2"><del>$@item.DonGia</del></h6>
                     </div>
-                    using Azure;
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a asp-controller="DetailHangHoa" asp-action="index" asp-route-id="@item.MaHh"
-                        class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.MaHh" style="display:inline;">
+                    <a asp-controller="DetailHangHoa" asp-action="Index" asp-route-id="@item.MaHh"
+                        class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                        Detail</a>
+                    <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.MaHh">
                         <button type="submit" class="btn btn-sm text-dark p-0"><i
                                 class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
                     </form>
@@ -54,3 +49,4 @@
 
     </div>
 </div>
+
