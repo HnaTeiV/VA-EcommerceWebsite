@@ -4,6 +4,7 @@ using VA_EcommerceWebsite.Data;
 using Microsoft.OpenApi.Models;
 using VA_EcommerceWebsite.Interface;
 using VA_EcommerceWebsite.Repository;
+using VA_EcommerceWebsite.Helpers;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDistributedMemoryCache();
@@ -14,8 +15,12 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
 builder.Services.AddDbContext<VAEcommerceContext>(options=>{
     options.UseSqlServer(builder.Configuration.GetConnectionString("VAEcommerce"));
 });
