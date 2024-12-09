@@ -258,3 +258,5 @@ D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\VSC\VA-EcommerceWebsite\obj\Debug\net8.0\VA-EcommerceWebsite.MvcApplicationPartsAssemblyInfo.cs
 D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\X.PagedList.dll
 D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\X.PagedList.Mvc.Core.dll
+D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\AutoMapper.dll
+D:\VSC\VA-EcommerceWebsite\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

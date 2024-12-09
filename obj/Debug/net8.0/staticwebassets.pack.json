@@ -345,6 +345,14 @@
       "PackagePath": "staticwebassets\\Hinh\\KhachHang\\man.jpg"
     },
     {
+      "Id": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\Hinh\\KhachHang\\test1.png",
+      "PackagePath": "staticwebassets\\Hinh\\KhachHang\\test1.png"
+    },
+    {
+      "Id": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\Hinh\\KhachHang\\test1_5f361c6d-f3f2-406c-beeb-fabb2ba5f4e0.png",
+      "PackagePath": "staticwebassets\\Hinh\\KhachHang\\test1_5f361c6d-f3f2-406c-beeb-fabb2ba5f4e0.png"
+    },
+    {
       "Id": "D:\\VSC\\VA-EcommerceWebsite\\wwwroot\\Hinh\\KhachHang\\woman.jpg",
       "PackagePath": "staticwebassets\\Hinh\\KhachHang\\woman.jpg"
     },

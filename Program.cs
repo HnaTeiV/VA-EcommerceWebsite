@@ -4,6 +4,8 @@ using VA_EcommerceWebsite.Data;
 using Microsoft.OpenApi.Models;
 using VA_EcommerceWebsite.Interface;
 using VA_EcommerceWebsite.Repository;
+using VA_EcommerceWebsite.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDistributedMemoryCache();
@@ -14,8 +16,15 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options=>{
+    options.LoginPath= "/Customer/Login";
+    options.AccessDeniedPath="/Customer/AccessDenied";
+});
 builder.Services.AddDbContext<VAEcommerceContext>(options=>{
     options.UseSqlServer(builder.Configuration.GetConnectionString("VAEcommerce"));
 });
@@ -72,7 +81,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
-
+app.UseAuthentication();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=HangHoa}/{action=Index}/{id?}");
