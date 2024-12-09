@@ -1,0 +1,203 @@
+@model IEnumerable<VA_EcommerceWebsite.ViewModels.HangHoaVM>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>EShopper - Bootstrap Shop Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/shop1.css" rel="stylesheet">
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!-- Use a compatible version -->
+    <!-- Include jqBootstrapValidation -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.min.js"></script>
+
+</head>
+
+<body>
+    @await Html.PartialAsync("_Header");
+    <!-- Shop Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <!-- Shop Sidebar Start -->
+            <div class="col-lg-3 col-md-12">
+                <!-- Price Start -->
+                <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
+                    <form method="post">
+                        <div class="price-contain">
+                            <div class="field">
+                                <span>Min</span>
+                                <input type="Number" class="input-min" name="min" value="2500">
+                            </div>
+                            <div class="separator">-</div>
+                            <div class="field">
+                                <span>Max</span>
+                                <input type="Number" class="input-max" name="max" value="7500">
+                            </div>
+                        </div>
+                        <div class="slider">
+                            <div class="progress"></div>
+                        </div>
+                        <div class="range-input">
+                            <input type="range" class="range-min" min="0" max="10000" value="2500">
+                            <input type="range" class="range-max" min="0" max="10000" value="7500">
+                        </div>
+                        <div class="submit-btn">
+                            <button id="submit-button" type="submit" class="submit-button">Price</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Price End -->
+            </div>
+            <!-- Shop Sidebar End -->
+
+
+            <!-- Shop Product Start -->
+            <div class="col-lg-9 col-md-12">
+                <div class="row pb-3">
+                    <div class="col-12 pb-1">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <form method="POST">
+                                <div class="input-group">
+                                    <input id="searchBox" type="search" class="form-control" name="query"
+                                        placeholder="Search by name">
+                                    <button type="submit" id="searchBtn" class="input-group-append">
+                                        <span class="input-group-text bg-transparent text-primary">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="dropdown ml-4">
+                                <button class="btn border dropdown-toggle" type="button" id="triggerId"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Sort by
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
+                                    <a class="dropdown-item" href="#">Latest</a>
+                                    <a class="dropdown-item" href="#">Popularity</a>
+                                    <a class="dropdown-item" href="#">Best Rating</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @await Html.PartialAsync("_ProductList");
+
+
+                    <div class="col-12 pb-1">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center mb-3">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- Shop Product End -->
+        </div>
+    </div>
+    <!-- Shop End -->
+
+    @await Html.PartialAsync("_Footer");
+    @await Html.PartialAsync("javascript");
+    <script>
+
+        $(document).ready(function () {
+            // SortByPrice AJAX Function
+            $("#submit-button").on("click", function (e) {
+                e.preventDefault();
+
+                // Define price input elements properly
+                const priceInput = $(".price-contain input");
+                let minPrice = priceInput.eq(0).val(); // Min price
+                let maxPrice = priceInput.eq(1).val(); // Max price
+
+                $.ajax({
+                    url: '@Url.Action("SortByPrice", "Shop")',
+                    type: 'POST',
+                    data: {
+                        min: minPrice,
+                        max: maxPrice
+                    },
+                    success: function (response) {
+                        $('#productContainer').html(response); // Update product container
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('SortByPrice AJAX Error:', status, error);
+                    }
+                });
+            });
+
+            // Search AJAX Function
+            $("#searchBtn").on("click", function (e) {
+                e.preventDefault();
+                let query = document.getElementById("searchBox").value;
+                console.log(searchBox.value);  // Logs the input value
+                
+                if (!query) {
+                    alert("Please enter a search term.");
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("Search", "Shop")',
+                    type: 'POST',
+                    data: { query: query },
+                    success: function (response) {
+                        $('#productContainer').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Search AJAX Error:', status, error);
+                    }
+                });
+            });
+
+        });
+
+
+
+    </script>
+    <script src="~/js/shop.js"></script>
+</body>
+
+</html>
