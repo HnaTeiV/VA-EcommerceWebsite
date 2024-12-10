@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using VA_EcommerceWebsite.Data;
 using VA_EcommerceWebsite.Helpers;
+using VA_EcommerceWebsite.Interface;
 using VA_EcommerceWebsite.ViewModels;
 
 namespace VA_EcommerceWebsite.Controllers
@@ -15,11 +16,11 @@ namespace VA_EcommerceWebsite.Controllers
     public class CustomerController : Controller
     {
         private readonly VAEcommerceContext db;
-        private readonly IMapper _mapper;
-        public CustomerController(VAEcommerceContext context, IMapper mapper)
+        private readonly ICustomerRepository _customerRepo;
+        public CustomerController(VAEcommerceContext context, ICustomerRepository customerRepo)
         {
             db = context;
-            _mapper = mapper;
+            _customerRepo = customerRepo;
         }
 
         [HttpGet("/Customer/Register")]
@@ -30,15 +31,7 @@ namespace VA_EcommerceWebsite.Controllers
             {
                 try
                 {
-                    var khachHang = _mapper.Map<KhachHang>(model);
-                    khachHang.RandomKey = Util.GenerateRandomKey();
-                    khachHang.MatKhau = model.MatKhau.ToMd5Hash(khachHang.MatKhau);
-                    khachHang.HieuLuc = true;
-                    khachHang.VaiTro = 0;
-                    if (Hinh != null)
-                    {
-                        khachHang.Hinh = Util.UploadImage(Hinh, "KhachHang");
-                    }
+                    var khachHang = _customerRepo.Register(model, Hinh);
                     db.Add(khachHang);
                     db.SaveChanges();
                     return RedirectToAction("Index", "HangHoa");
@@ -59,55 +52,41 @@ namespace VA_EcommerceWebsite.Controllers
             return View();
         }
         [HttpPost("/Customer/Login")]
-        public async Task<IActionResult> Login(LoginVM model, string? returnUrl)
+        public async Task<IActionResult> Login(LoginVM model, string? ReturnUrl)
         {
-            ViewBag.returnUrl = returnUrl;
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var khachHang = db.KhachHangs.SingleOrDefault(kh => kh.MaKh == model.MaKh);
-                if (khachHang == null)
-                {
-                    ModelState.AddModelError("Lỗi", "Tài khoản không tồn tại");
-                }
-                else
-                {
-                    if (!khachHang.HieuLuc)
-                    {
-                        ModelState.AddModelError("Lỗi", "Tài khoản của bạn hiện đang bị khóa vui lòng liên hệ bộ phận hỗ trợ");
-                    }
-                    else
-                    {
-                        var hashPassword = model.MatKhau.ToMd5Hash(khachHang.RandomKey);
-                        if (khachHang.MatKhau != hashPassword)
-                        {
-                            ModelState.AddModelError("Lỗi", "Sai thông tin đăng nhập");
-                        }
-                        else
-                        {
-                            var claims = new List<Claim>{
-                                new Claim(ClaimTypes.Email,khachHang.Email),
-                                new Claim(ClaimTypes.Name,khachHang.HoTen),
-                                new Claim(ClaimTypes.Role,"Customer"),
-                                new Claim("Mã khách hàng",khachHang.MaKh)
-                            };
-                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-                            await HttpContext.SignInAsync(claimsPrincipal);
-                            if (Url.IsLocalUrl(returnUrl))
-                            {
-                                return Redirect(returnUrl);
-                            }
-                            else
-                            {
-                                return Redirect("/");
-                            }
-                        }
-                    }
-                }
+                return View(model);
             }
-            return View();
+
+            var khachHang = await _customerRepo.Login(model);
+            if (khachHang == null)
+            {
+                ModelState.AddModelError("Lỗi", "Sai thông tin đăng nhập hoặc tài khoản bị khóa.");
+                return View(model);
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, khachHang.Email),
+                new Claim(ClaimTypes.Name, khachHang.HoTen),
+                new Claim("Mã khách hàng", khachHang.MaKh),
+                new Claim(ClaimTypes.Role, "Customer")
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await HttpContext.SignInAsync(claimsPrincipal);
+
+            if (Url.IsLocalUrl(ReturnUrl))
+            {
+                return Redirect(ReturnUrl);
+            }
+
+            return Redirect("/");
         }
+
 
 
         [Authorize]
@@ -116,9 +95,10 @@ namespace VA_EcommerceWebsite.Controllers
             return View();
         }
         [Authorize]
-        public async Task<IActionResult> Logout(){
+        public async Task<IActionResult> Logout()
+        {
             await HttpContext.SignOutAsync();
-            return RedirectToAction("Login","Customer");
+            return RedirectToAction("Login", "Customer");
         }
     }
 }

@@ -21,11 +21,13 @@ builder.Services.AddSession(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options=>{
-    options.LoginPath= "/Customer/Login";
-    options.AccessDeniedPath="/Customer/AccessDenied";
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/Customer/Login";
+    options.AccessDeniedPath = "/Customer/AccessDenied";
 });
-builder.Services.AddDbContext<VAEcommerceContext>(options=>{
+builder.Services.AddDbContext<VAEcommerceContext>(options =>
+{
     options.UseSqlServer(builder.Configuration.GetConnectionString("VAEcommerce"));
 });
 builder.Services.AddEndpointsApiExplorer();
@@ -50,9 +52,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IHangHoaRepository, HangHoaRepository>();
-builder.Services.AddScoped<IShopRepository,ShopRepositoy>();
+builder.Services.AddScoped<IShopRepository, ShopRepositoy>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
