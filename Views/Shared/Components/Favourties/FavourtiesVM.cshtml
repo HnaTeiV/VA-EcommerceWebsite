@@ -1,0 +1,5 @@
+@model VA_EcommerceWebsite.ViewModels.FavourtiesModelVM;
+    <a asp-controller="CustomerController" asp-action="GetFavourtiesPage" class="btn border">
+        <i class="fas fa-heart text-primary"></i>
+        <span class="badge">@Model.quantity</span>
+    </a>

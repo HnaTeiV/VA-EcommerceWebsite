@@ -50,7 +50,12 @@
                     </div>
                 </form>
             </div>
-            @await Component.InvokeAsync("Cart");
+            
+            <div id="favourites-container"  class="col-lg-3 col-6 text-right">
+                @await Component.InvokeAsync("Favourties");
+                @await Component.InvokeAsync("Cart");
+            </div>
+            
         </div>
     </div>
     <!-- Topbar End -->
@@ -83,8 +88,19 @@
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a asp-action="Login" asp-controller="Customer" class="nav-item nav-link">Login</a>
+                             @if (User.Identity.IsAuthenticated)
+        {
+            <span>Welcome, <strong>@User.Identity.Name</strong>!</span>
+            <form asp-controller="Customer" asp-action="Logout" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-link text-danger" style="text-decoration:none;">Logout</button>
+            </form>
+        }
+        else
+        {
+            <a asp-action="Login" asp-controller="Customer" class="nav-item nav-link">Login</a>
                             <a asp-action="Register" asp-controller="Customer" class="nav-item nav-link">Register</a>
+        }
+                            
                         </div>
                     </div>
                 </nav>

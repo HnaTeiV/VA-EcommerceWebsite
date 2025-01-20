@@ -8,6 +8,7 @@ namespace VA_EcommerceWebsite.Interface
         Task<HangHoaVM> GetHangHoaByIdAsync(int id);
         Task<List<HangHoaVM>> GetAllAsync(int ?loai);
         Task<List<HangHoaVM>> SearchAsync(string? query);
+        
 
     }
 }

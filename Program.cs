@@ -24,7 +24,7 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
     options.LoginPath = "/Customer/Login";
-    options.AccessDeniedPath = "/Customer/AccessDenied";
+    options.AccessDeniedPath = "/AccessDenied";
 });
 builder.Services.AddDbContext<VAEcommerceContext>(options =>
 {
@@ -82,8 +82,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=HangHoa}/{action=Index}/{id?}");

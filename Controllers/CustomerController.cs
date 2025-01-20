@@ -25,6 +25,7 @@ namespace VA_EcommerceWebsite.Controllers
 
         [HttpGet("/Customer/Register")]
         [HttpPost("/Customer/Register")]
+        [AllowAnonymous]
         public IActionResult Register(RegisterVM model, IFormFile Hinh)
         {
             if (ModelState.IsValid)
@@ -43,17 +44,19 @@ namespace VA_EcommerceWebsite.Controllers
             }
             return View();
         }
-
+        
         [HttpGet("/Customer/Login")]
-
-        public IActionResult Login(string? returnUrl)
+        [AllowAnonymous]
+        public IActionResult Login(string? ReturnUrl)
         {
-            ViewBag.returnUrl = returnUrl;
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
         [HttpPost("/Customer/Login")]
         public async Task<IActionResult> Login(LoginVM model, string? ReturnUrl)
         {
+            ViewBag.ReturnUrl = ReturnUrl;
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -67,24 +70,24 @@ namespace VA_EcommerceWebsite.Controllers
             }
 
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, khachHang.Email),
-                new Claim(ClaimTypes.Name, khachHang.HoTen),
-                new Claim("Mã khách hàng", khachHang.MaKh),
-                new Claim(ClaimTypes.Role, "Customer")
-            };
+    {
+        new Claim(ClaimTypes.Email, khachHang.Email),
+        new Claim(ClaimTypes.Name, khachHang.HoTen),
+        new Claim("Mã khách hàng", khachHang.MaKh),
+        new Claim(ClaimTypes.Role, "Customer")
+    };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
             await HttpContext.SignInAsync(claimsPrincipal);
 
-            if (Url.IsLocalUrl(ReturnUrl))
+            if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
             {
                 return Redirect(ReturnUrl);
             }
 
-            return Redirect("/");
+            return RedirectToAction("Index", "HangHoa");
         }
 
 
@@ -99,6 +102,10 @@ namespace VA_EcommerceWebsite.Controllers
         {
             await HttpContext.SignOutAsync();
             return RedirectToAction("Login", "Customer");
+        }
+        [Authorize]
+        public IActionResult GetFavourtiesPage(){
+            return View();
         }
     }
 }

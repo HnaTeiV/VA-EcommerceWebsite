@@ -1,4 +1,4 @@
-@model VA_EcommerceWebsite.ViewModels.RegisterVM
+@model VA_EcommerceWebsite.ViewModels.LoginVM
 @{
     Layout = null;
 }
@@ -28,7 +28,7 @@
 
     <main class="container my-5">
         <h2 class="text-center mb-4">Đăng nhập</h2>
-        <form asp-action="Login" asp-controller="Customer" method="post">
+        <form asp-action="Login" asp-controller="Customer" method="post" asp-route-ReturnUrl="@ViewBag.ReturnUrl">
             <div class="text-danger" asp-validation-summary="All"></div>
             <div class="mb-3">
                 <label asp-for="MaKh" class="form-label"></label>

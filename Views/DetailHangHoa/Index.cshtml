@@ -1,8 +1,8 @@
 @model VA_EcommerceWebsite.ViewModels.ObjectAndListObjectHangHoa
 @{
     Layout = null; // This will prevent any layout from being applied
-    var ListItem= Model.HangHoaList;
-    ListItem= ListItem.OrderByDescending(p=>p.LuotXem).Take(4).ToList();
+    var ListItem = Model.HangHoaList;
+    ListItem = ListItem.OrderByDescending(p => p.LuotXem).Take(4).ToList();
 
 }
 <!DOCTYPE html>
@@ -75,24 +75,36 @@
                 <h3 class="font-weight-semi-bold mb-4">$@Model.HangHoaItem.DonGia</h3>
                 <p class="mb-4">@Model.HangHoaItem.MoTaNgan</p>
                 <p class="mb-4 fas fa-eye">@Model.HangHoaItem.LuotXem</p>
-                <form  asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.HangHoaItem.MaHh" >
-                <div class="d-flex align-items-center mb-4 pt-2">
-                    <div class="input-group quantity mr-3" style="width: 130px;">
-                        <div class="input-group-btn">
-                            <button onclick="decreaseQuantity()" class="btn btn-primary btn-minus" type="button">
-                                <i class="fa fa-minus"></i>
-                            </button>
+                <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.HangHoaItem.MaHh">
+                    <div class="d-flex align-items-center mb-4 pt-2">
+                        <div class="input-group quantity mr-3" style="width: 130px;">
+                            <div class="input-group-btn">
+                                <button onclick="decreaseQuantity()" class="btn btn-primary btn-minus" type="button">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <input id="orderNumber" type="text" name="quantity"
+                                class="form-control bg-secondary text-center" value="1">
+                            <div class="input-group-btn">
+                                <button onclick="increaseQuantity()" class="btn btn-primary btn-plus" type="button">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
-                        <input id="orderNumber" type="text" name="quantity" class="form-control bg-secondary text-center" value="1">
-                        <div class="input-group-btn">
-                            <button onclick="increaseQuantity()" class="btn btn-primary btn-plus" type="button">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
+                        <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1" type="submit"></i> Add
+                            To Cart</button>
                     </div>
-                    <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1" type="submit"></i> Add To Cart</button>
-                </div>
-                </form> 
+                </form>
+
+                <form id="favouriteForm" asp-controller="DetailHangHoa" asp-action="AddFavourties" method="post">
+                    <input type="hidden" name="maHh" value="@Model.HangHoaItem.MaHh" />
+                    <button type="button" class="btn btn-primary px-3" style="margin-left:1.5rem;"
+                        onclick="addToFavourites(@Model.HangHoaItem.MaHh)">
+                        Favourite<i class="fas fa-heart"></i>
+                    </button>
+                </form>
+
+
                 <div class="d-flex pt-2">
                     <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
                     <div class="d-inline-flex">
@@ -201,8 +213,10 @@
                     @foreach (var hh in ListItem)
                     {
                         <div class="card product-item border-0">
-                            <div  style="text-align:center;"  class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <span style="position:absolute;left:55%;top:4%;z-index:1;"class="fas fa-eye">@hh.LuotXem</span>
+                            <div style="text-align:center;"
+                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                <span style="position:absolute;left:55%;top:4%;z-index:1;"
+                                    class="fas fa-eye">@hh.LuotXem</span>
                                 <img class="img-fluid w-20" src="~/Hinh/HangHoa/@hh.Hinh" alt="">
                             </div>
                             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -213,7 +227,8 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-between bg-light border">
-                                <a asp-controller="DetailHangHoa" asp-action="GetDetailHangHoa" asp-route-item="@hh.MaHh" class="btn btn-sm text-dark p-0">
+                                <a asp-controller="DetailHangHoa" asp-action="GetDetailHangHoa" asp-route-item="@hh.MaHh"
+                                    class="btn btn-sm text-dark p-0">
                                     <i class="fas fa-eye text-primary mr-1"></i>View Detail
                                 </a>
                                 <a href="" class="btn btn-sm text-dark p-0">
@@ -336,19 +351,33 @@
         const increaseQuantity = () => {
             const orderNumberInput = document.getElementById("orderNumber");
             const currentValue = parseInt(orderNumberInput.value);
-            orderNumberInput.value = currentValue + 1; // Corrected from Value to value
+            orderNumberInput.value = currentValue + 1;
         }
 
         const decreaseQuantity = () => {
             const orderNumberInput = document.getElementById("orderNumber");
             const currentValue = parseInt(orderNumberInput.value);
-            if (currentValue > 1) { // Prevent negative or zero values
-                orderNumberInput.value = currentValue - 1; // Corrected from Value to value
+            if (currentValue > 1) {
+                orderNumberInput.value = currentValue - 1;
             }
         }
-        console.log(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)));
-        console.log(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.HangHoaItem)));
-        console.log(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.HangHoaList)));
+        function addToFavourites(maHh){
+        $.ajax({
+            url: '/DetailHangHoa/AddFavourties/' + maHh, // Fix this line to match the controller's method name
+            type: 'POST',
+            success: function (response) {
+                if (response.success) {
+                    alert('Item added to favourites!');
+                    
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('An error occurred: ' + error);
+            }
+        });
+}
     </script>
 
 
