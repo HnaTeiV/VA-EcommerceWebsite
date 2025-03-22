@@ -1,0 +1,335 @@
+@model List<VA_EcommerceWebsite.ViewModels.EmployeeVM>;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .form-container {
+        display: flex;
+        gap: 20px;
+    }
+
+    .form-column {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .employee-updates td>form {
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 100%;
+    }
+
+    .employee-updates td>form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .employee-updates td>form input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .employee-updates td>form button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .employee-updates td>form button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<main>
+    <header>
+        <div class="search-wrapper">
+            <span class="ti-search"></span>
+            <input type="search" id="search-input" placeholder="Search">
+            <button id="search-btn">Search</button>
+        </div>
+        <div class="social-icons">
+            <span class="ti-bell"></span>
+            <span class="ti-comment"></span>
+            <div></div>
+            <span>@Context.User.Identity.Name</span>
+        </div>
+    </header>
+    <h2 class="dash-title">employees</h2>
+    <section class="recent">
+        <div class="activity-grid">
+            <div class="activity-card" style="width:80rem;">
+                <h3>Employees List</h3>
+                <button class="Add-Btn">Add</button>
+                <div class="Add-Employee-Container" style="display:none;">
+                    <form>
+                        <div class="form-container">
+                            <div class="form-column">
+                                @* <label for="MaHh">ID:</label>
+                                <input type="text" id="MaHh" name="MaHh" value=""> *@
+
+                                <label for="Name">Name:</label>
+                                <input type="text" id="Name" name="Name" value="">
+                                <label for="Email">Email:</label>
+                                <input type="text" id="Email" name="Email" value="">
+                                <label for="Type">Type:</label>
+                                <label for="Password">Password:</label>
+                                <input type="password" id="Password-Add" name="Password" value="">
+                                <button type="button" class="toggle-password">Show</button>
+                                <label for="phoneNumber">Phone Number: </label>
+                                <input type="text" id="phoneNumber" name="phoneNumber" value="">
+                                <select name="Gender" id="Gender">
+                                    <option value="false">Female</option>
+                                    <option value="true">Male</option>
+                                </select>
+                                <select name="Department" id="Department">
+                                    <option value="BGD">BGD</option>
+                                </select>
+                                <select name="Position" id="Position">
+                                    <option value="ADMIN">ADMIN</option>
+                                    <option value="MANAGER">MANAGER</option>
+                                </select>
+                                <label for="Salary">Salary: </label>
+                                <input type="text" id="Salary" name="Salary" value="">
+                                <select name="isActive" id="isActive">
+                                    <option value="False">False</option>
+                                    <option value="True">True</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+
+
+                            <th>Gender</th>
+                            <th>Department</th>
+                            <th>Position</th>
+                            <th>Salary</th>
+                            <th>Join Date</th>
+
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employee-list">
+                        @foreach (var employee in Model)
+                        {
+                            <tr>
+                                <td>@employee.MaNv</td>
+                                <td>@employee.HoTen</td>
+                                <td>@employee.Email</td>
+
+                                <td>@(employee.GioiTinh == false ? "Female" : "Male")</td>
+                                <td>@employee.MaPb</td>
+                                <td>@employee.ChucVu</td>
+                                <td>@employee.Luong</td>
+                                <td>@employee.NgayVaoLam</td>
+
+                                <td>
+                                    <a class="Detail-Btn ti-eye" data-id="@employee.MaNv"></a>
+                                    <a class="Update-Btn ti-reload" data-id="@employee.MaNv"></a>
+                                    <a class="Delete-Btn ti-trash" data-id="@employee.MaNv"></a>
+                                </td>
+                            </tr>
+                            <tr class="employee-details" id="details-@employee.MaNv" style="display: none;">
+                                <td colspan="10">
+                                    <strong>Password:</strong> @employee.MatKhau <br>
+                                    <strong>Phone Number:</strong> @employee.Sdt <br>
+                                    <strong>Is Active:</strong> @employee.IsActive
+                                </td>
+                            </tr>
+                            <tr class="employee-updates" id="updates-@employee.MaNv" style="display:none;">
+                                <td colspan="10">
+                                    <form>
+                                        <div class="form-container">
+                                            <div class="form-column">
+                                                <label for="MaNv">ID:</label>
+                                                <input type="text" id="MaNv" name="MaNv" readonly value="@employee.MaNv">
+
+                                                <label for="Name">Name:</label>
+                                                <input type="text" id="Name" name="Name" value="@employee.HoTen">
+
+                                                <label for="Email">Email:</label>
+                                                <input type="text" id="Email" name="Email" value="@employee.Email">
+                                                <label for="Gender">Gender:</label>
+                                                <select name="Gender" id="Gender">
+                                                    <option value="false">Female</option>
+                                                    <option value="true">Male</option>
+                                                </select>
+                                                <label for="Department">Department:</label>
+                                                <input type="text" id="Department" name="Department" value="@employee.MaPb">
+                                                <label for="Position">Position</label>
+                                                <select name="Position" id="Position">
+                                                    <option value="ADMIN">ADMIN</option>
+                                                    <option value="MANAGER">MANAGER</option>
+                                                </select>
+
+                                                <label for="Password">Password:</label>
+                                                <input type="password" id="Password-@employee.MaNv" name="Password"
+                                                    value="@employee.MatKhau">
+                                                <button type="button" class="toggle-password"
+                                                    data-id="@employee.MaNv">Show</button>
+                                                <label for="Salary">Salary</label>
+                                                <input type="text" id="Salary" name="Salary" value="@employee.Luong">
+                                                <label for="phoneNumber">Phone Number: </label>
+                                                <input type="text" id="phoneNumber" name="phoneNumber"
+                                                    value="@employee.Sdt">
+                                                <label for="isActive">Is Active:</label>
+                                                <select name="isActive" id="isActive">
+                                                    <option value="False">False</option>
+                                                    <option value="True">True</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <button type="submit">Submit</button>
+                                    </form>
+
+
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+<script>
+    $(document).ready(function () {
+        $(document).on("click", ".Detail-Btn", function (event) {
+            event.preventDefault();
+            let employeeId = $(this).data("id");
+            let detailsRow = $("#details-" + employeeId);
+            $(".employee-details").not(detailsRow).slideUp();
+            detailsRow.slideToggle();
+        });
+        $(document).on("click", ".Update-Btn", function (event) {
+            event.preventDefault();
+            let employeeId = $(this).data("id");
+            let detailsRow = $("#updates-" + employeeId);
+            $(".employee-updates").not(detailsRow).slideUp();
+            detailsRow.slideToggle();
+        });
+
+        $(document).on("click", ".toggle-password", function (event) {
+            event.preventDefault();
+            let employeeId = $(this).data("id");
+            let passwordInput = $("#Password-" + employeeId);
+            let passwordAddInput = $("#Password-Add");
+            if (passwordInput.attr("type") === "password" || passwordAddInput.attr("type") === "password") {
+                passwordInput.attr("type", "text");
+                passwordAddInput.attr("type", "text");
+                $(this).text("Hide");
+            } else {
+                passwordInput.attr("type", "password");
+                passwordAddInput.attr("type", "password");
+                $(this).text("Show");
+            }
+        });
+        $(document).on("submit", ".Add-Employee-Container", function (event) {
+            event.preventDefault();
+            let form = $(this);
+            let employeeData = {
+                HoTen: form.find("input[name='Name']").val().trim(),
+                Email: form.find("input[name='Email']").val().trim(),
+                MatKhau: form.find("input[name='Password']").val().trim(),
+                Sdt: form.find("input[name='phoneNumber"]).val().trim(),
+                GioiTInh: form.find("select[name='Gender']").val().trim(),
+                MaPb: form.find("select[name='Department']").val().trim(),
+                ChucVu: form.find("input[name='Position']").val().trim(),
+                Luong: parseFloat(form.find("input[name='Salary']").val().trim()),
+                IsActive: form.find("select[name='isActive']")..val().trim(),
+            };
+            console.log(employeeData);
+            $.ajax({
+                url: "/Employee/AddEmployee",
+                type: "POST",
+                data: employeeData,
+                success: function (Response) {
+                    console.log("✅ Server Response:", response);
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.log("❌ AJAX Error:", xhr.responseText);
+                }
+            });
+        });
+
+        // Handle updating a product
+        $(document).on("submit", ".employee-updates form", function (event) {
+            event.preventDefault();
+            let form = $(this);
+            let employeeData = {
+                MaNv: form.find("input[name='MaNv']").val().trim(),
+                HoTen: form.find("input[name='Name']").val().trim(),
+                Email: form.find("input[name='Email']").val().trim(),
+                GioiTinh: form.find("select[name='Gender']").val().trim(),
+                MaPb: form.find("input[name='Department']").val().trim(),
+                ChucVu: form.find("select[name='Position']").val().trim(),
+                MatKhau: form.find("input[name='Password']").val().trim(),
+                Luong: parseFloat(form.find("input[name='Salary']").val().trim()),
+                Sdt: form.find("input[name='phoneNumber']").val().trim(),
+                IsActive: form.find("select[name='isActive']").val().trim(),
+
+            };
+            console.log("SUBMIT");
+            console.log("🔍 JSON Sent to Server:", JSON.stringify(employeeData));
+
+            $.ajax({
+                url: "/Employee/UpdateEmployee",
+                type: "POST",
+                data: employeeData,
+                success: function (response) {
+                    console.log("✅ Server Response:", response);
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.log("❌ AJAX Error:", xhr.responseText);
+                }
+            });
+
+        });
+        $(document).on("click", ".Delete-Btn", function (event) {
+            event.preventDefault();
+            let employeeId = $(this).data("id");
+            if (!confirm("Are you sure you want to delete this product?")) {
+                return;
+            }
+            $.ajax({
+                url: "/Employee/DeleteEmployee/" + productId,
+                type: "DELETE",
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("AJAX Error: " + error);
+                }
+            });
+        });
+    });
+</script>

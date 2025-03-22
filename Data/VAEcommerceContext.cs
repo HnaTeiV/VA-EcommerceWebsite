@@ -19,15 +19,9 @@ public partial class VAEcommerceContext : DbContext
 
     public virtual DbSet<ChiTietHd> ChiTietHds { get; set; }
 
-    public virtual DbSet<ChuDe> ChuDes { get; set; }
-
-    public virtual DbSet<GopY> Gopies { get; set; }
-
     public virtual DbSet<HangHoa> HangHoas { get; set; }
 
     public virtual DbSet<HoaDon> HoaDons { get; set; }
-
-    public virtual DbSet<HoiDap> HoiDaps { get; set; }
 
     public virtual DbSet<KhachHang> KhachHangs { get; set; }
 
@@ -37,15 +31,9 @@ public partial class VAEcommerceContext : DbContext
 
     public virtual DbSet<NhanVien> NhanViens { get; set; }
 
-    public virtual DbSet<PhanCong> PhanCongs { get; set; }
-
-    public virtual DbSet<PhanQuyen> PhanQuyens { get; set; }
-
     public virtual DbSet<PhongBan> PhongBans { get; set; }
 
     public virtual DbSet<TrangThai> TrangThais { get; set; }
-
-    public virtual DbSet<TrangWeb> TrangWebs { get; set; }
 
     public virtual DbSet<VChiTietHoaDon> VChiTietHoaDons { get; set; }
 
@@ -85,67 +73,22 @@ public partial class VAEcommerceContext : DbContext
 
         modelBuilder.Entity<ChiTietHd>(entity =>
         {
-            entity.HasKey(e => e.MaCt).HasName("PK_OrderDetails");
+            entity.HasKey(e => new { e.MaHd, e.MaHh }).HasName("PK__ChiTietH__7557FC8E701B7A0D");
 
             entity.ToTable("ChiTietHD");
 
-            entity.Property(e => e.MaCt).HasColumnName("MaCT");
             entity.Property(e => e.MaHd).HasColumnName("MaHD");
             entity.Property(e => e.MaHh).HasColumnName("MaHH");
-            entity.Property(e => e.SoLuong).HasDefaultValue(1);
 
             entity.HasOne(d => d.MaHdNavigation).WithMany(p => p.ChiTietHds)
                 .HasForeignKey(d => d.MaHd)
-                .HasConstraintName("FK_OrderDetails_Orders");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ChiTietHD__MaHD__1B9317B3");
 
             entity.HasOne(d => d.MaHhNavigation).WithMany(p => p.ChiTietHds)
                 .HasForeignKey(d => d.MaHh)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_OrderDetails_Products");
-        });
-
-        modelBuilder.Entity<ChuDe>(entity =>
-        {
-            entity.HasKey(e => e.MaCd);
-
-            entity.ToTable("ChuDe");
-
-            entity.Property(e => e.MaCd).HasColumnName("MaCD");
-            entity.Property(e => e.MaNv)
-                .HasMaxLength(50)
-                .HasColumnName("MaNV");
-            entity.Property(e => e.TenCd)
-                .HasMaxLength(50)
-                .HasColumnName("TenCD");
-
-            entity.HasOne(d => d.MaNvNavigation).WithMany(p => p.ChuDes)
-                .HasForeignKey(d => d.MaNv)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_ChuDe_NhanVien");
-        });
-
-        modelBuilder.Entity<GopY>(entity =>
-        {
-            entity.HasKey(e => e.MaGy);
-
-            entity.ToTable("GopY");
-
-            entity.Property(e => e.MaGy)
-                .HasMaxLength(50)
-                .HasColumnName("MaGY");
-            entity.Property(e => e.DienThoai).HasMaxLength(50);
-            entity.Property(e => e.Email).HasMaxLength(50);
-            entity.Property(e => e.HoTen).HasMaxLength(50);
-            entity.Property(e => e.MaCd).HasColumnName("MaCD");
-            entity.Property(e => e.NgayGy)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnName("NgayGY");
-            entity.Property(e => e.NgayTl).HasColumnName("NgayTL");
-            entity.Property(e => e.TraLoi).HasMaxLength(50);
-
-            entity.HasOne(d => d.MaCdNavigation).WithMany(p => p.Gopies)
-                .HasForeignKey(d => d.MaCd)
-                .HasConstraintName("FK_GopY_ChuDe");
+                .HasConstraintName("FK__ChiTietHD__MaHH__1C873BEC");
         });
 
         modelBuilder.Entity<HangHoa>(entity =>
@@ -215,36 +158,10 @@ public partial class VAEcommerceContext : DbContext
                 .HasForeignKey(d => d.MaKh)
                 .HasConstraintName("FK_Orders_Customers");
 
-            entity.HasOne(d => d.MaNvNavigation).WithMany(p => p.HoaDons)
-                .HasForeignKey(d => d.MaNv)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_HoaDon_NhanVien");
-
             entity.HasOne(d => d.MaTrangThaiNavigation).WithMany(p => p.HoaDons)
                 .HasForeignKey(d => d.MaTrangThai)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_HoaDon_TrangThai");
-        });
-
-        modelBuilder.Entity<HoiDap>(entity =>
-        {
-            entity.HasKey(e => e.MaHd);
-
-            entity.ToTable("HoiDap");
-
-            entity.Property(e => e.MaHd)
-                .ValueGeneratedNever()
-                .HasColumnName("MaHD");
-            entity.Property(e => e.CauHoi).HasMaxLength(50);
-            entity.Property(e => e.MaNv)
-                .HasMaxLength(50)
-                .HasColumnName("MaNV");
-            entity.Property(e => e.NgayDua).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.TraLoi).HasMaxLength(50);
-
-            entity.HasOne(d => d.MaNvNavigation).WithMany(p => p.HoiDaps)
-                .HasForeignKey(d => d.MaNv)
-                .HasConstraintName("FK_HoiDap_NhanVien");
         });
 
         modelBuilder.Entity<KhachHang>(entity =>
@@ -302,81 +219,50 @@ public partial class VAEcommerceContext : DbContext
 
         modelBuilder.Entity<NhanVien>(entity =>
         {
-            entity.HasKey(e => e.MaNv);
+            entity.HasKey(e => e.MaNv).HasName("PK__NhanVien__2725D70A7C859924");
 
             entity.ToTable("NhanVien");
 
-            entity.Property(e => e.MaNv)
+            entity.HasIndex(e => e.Email, "UQ__NhanVien__A9D10534C841FFF4").IsUnique();
+
+            entity.Property(e => e.MaNv).HasColumnName("MaNV");
+            entity.Property(e => e.ChucVu)
                 .HasMaxLength(50)
-                .HasColumnName("MaNV");
-            entity.Property(e => e.Email).HasMaxLength(50);
+                .HasDefaultValue("Employee");
+            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.GioiTinh).HasDefaultValue(true);
             entity.Property(e => e.HoTen).HasMaxLength(50);
+            entity.Property(e => e.IsActive).HasDefaultValue(false);
+            entity.Property(e => e.Luong).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.MaPb)
+                .HasMaxLength(20)
+                .HasColumnName("MaPB");
             entity.Property(e => e.MatKhau).HasMaxLength(50);
-        });
+            entity.Property(e => e.NgayVaoLam)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Sdt)
+                .HasMaxLength(15)
+                .HasColumnName("SDT");
 
-        modelBuilder.Entity<PhanCong>(entity =>
-        {
-            entity.HasKey(e => e.MaPc);
-
-            entity.ToTable("PhanCong");
-
-            entity.Property(e => e.MaPc).HasColumnName("MaPC");
-            entity.Property(e => e.MaNv)
-                .HasMaxLength(50)
-                .HasColumnName("MaNV");
-            entity.Property(e => e.MaPb)
-                .HasMaxLength(7)
-                .IsUnicode(false)
-                .HasColumnName("MaPB");
-            entity.Property(e => e.NgayPc)
-                .HasColumnType("datetime")
-                .HasColumnName("NgayPC");
-
-            entity.HasOne(d => d.MaNvNavigation).WithMany(p => p.PhanCongs)
-                .HasForeignKey(d => d.MaNv)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PhanCong_NhanVien");
-
-            entity.HasOne(d => d.MaPbNavigation).WithMany(p => p.PhanCongs)
+            entity.HasOne(d => d.MaPbNavigation).WithMany(p => p.NhanViens)
                 .HasForeignKey(d => d.MaPb)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PhanCong_PhongBan");
-        });
-
-        modelBuilder.Entity<PhanQuyen>(entity =>
-        {
-            entity.HasKey(e => e.MaPq);
-
-            entity.ToTable("PhanQuyen");
-
-            entity.Property(e => e.MaPq).HasColumnName("MaPQ");
-            entity.Property(e => e.MaPb)
-                .HasMaxLength(7)
-                .IsUnicode(false)
-                .HasColumnName("MaPB");
-
-            entity.HasOne(d => d.MaPbNavigation).WithMany(p => p.PhanQuyens)
-                .HasForeignKey(d => d.MaPb)
-                .HasConstraintName("FK_PhanQuyen_PhongBan");
-
-            entity.HasOne(d => d.MaTrangNavigation).WithMany(p => p.PhanQuyens)
-                .HasForeignKey(d => d.MaTrang)
-                .HasConstraintName("FK_PhanQuyen_TrangWeb");
+                .HasConstraintName("FK_NhanVien_PhongBan");
         });
 
         modelBuilder.Entity<PhongBan>(entity =>
         {
-            entity.HasKey(e => e.MaPb);
+            entity.HasKey(e => e.MaPb).HasName("PK__PhongBan__2725E7E4CCF35283");
 
             entity.ToTable("PhongBan");
 
             entity.Property(e => e.MaPb)
-                .HasMaxLength(7)
-                .IsUnicode(false)
+                .HasMaxLength(20)
                 .HasColumnName("MaPB");
-            entity.Property(e => e.TenPb)
-                .HasMaxLength(50)
-                .HasColumnName("TenPB");
+            entity.Property(e => e.NgayThanhLap)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.TenPhongBan).HasMaxLength(100);
         });
 
         modelBuilder.Entity<TrangThai>(entity =>
@@ -388,18 +274,6 @@ public partial class VAEcommerceContext : DbContext
             entity.Property(e => e.MaTrangThai).ValueGeneratedNever();
             entity.Property(e => e.MoTa).HasMaxLength(500);
             entity.Property(e => e.TenTrangThai).HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<TrangWeb>(entity =>
-        {
-            entity.HasKey(e => e.MaTrang);
-
-            entity.ToTable("TrangWeb");
-
-            entity.Property(e => e.TenTrang).HasMaxLength(50);
-            entity.Property(e => e.Url)
-                .HasMaxLength(250)
-                .HasColumnName("URL");
         });
 
         modelBuilder.Entity<VChiTietHoaDon>(entity =>
@@ -418,27 +292,22 @@ public partial class VAEcommerceContext : DbContext
 
         modelBuilder.Entity<YeuThich>(entity =>
         {
-            entity.HasKey(e => e.MaYt).HasName("PK_Favorites");
+            entity.HasKey(e => e.MaYt).HasName("PK__YeuThich__272330F4DD30EEDD");
 
             entity.ToTable("YeuThich");
 
-            entity.Property(e => e.MaYt).HasColumnName("MaYT");
             entity.Property(e => e.MaHh).HasColumnName("MaHH");
-            entity.Property(e => e.MaKh)
-                .HasMaxLength(20)
-                .HasColumnName("MaKH");
-            entity.Property(e => e.MoTa).HasMaxLength(255);
+            entity.Property(e => e.MaKh).HasMaxLength(20);
+            entity.Property(e => e.MoTa).HasMaxLength(300);
             entity.Property(e => e.NgayChon).HasColumnType("datetime");
 
             entity.HasOne(d => d.MaHhNavigation).WithMany(p => p.YeuThiches)
                 .HasForeignKey(d => d.MaHh)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_YeuThich_HangHoa");
 
             entity.HasOne(d => d.MaKhNavigation).WithMany(p => p.YeuThiches)
                 .HasForeignKey(d => d.MaKh)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Favorites_Customers");
+                .HasConstraintName("FK_YeuThich_KhachHang");
         });
 
         OnModelCreatingPartial(modelBuilder);

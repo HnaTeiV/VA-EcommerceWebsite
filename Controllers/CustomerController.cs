@@ -80,7 +80,7 @@ namespace VA_EcommerceWebsite.Controllers
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-            await HttpContext.SignInAsync(claimsPrincipal);
+            await HttpContext.SignInAsync("CustomerAuth",claimsPrincipal);
 
             if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
             {
@@ -92,7 +92,7 @@ namespace VA_EcommerceWebsite.Controllers
 
 
 
-        [Authorize]
+        [Authorize(AuthenticationSchemes ="CustomerAuth")]
         public IActionResult Profile()
         {
             return View();

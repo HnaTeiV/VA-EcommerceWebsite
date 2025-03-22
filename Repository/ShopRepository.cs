@@ -6,10 +6,10 @@ using VA_EcommerceWebsite.ViewModels;
 
 namespace VA_EcommerceWebsite.Repository
 {
-    public class ShopRepositoy : IShopRepository
+    public class ShopRepository : IShopRepository
     {
         private readonly VAEcommerceContext db;
-        public ShopRepositoy(VAEcommerceContext context) => db = context;
+        public ShopRepository(VAEcommerceContext context) => db = context;
 
         public async Task<List<HangHoaVM>> SortByPrice(priceFilterVM priceFilter) {
             var hangHoa = await db.HangHoas.ToListAsync();

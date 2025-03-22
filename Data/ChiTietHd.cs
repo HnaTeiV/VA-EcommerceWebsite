@@ -5,17 +5,11 @@ namespace VA_EcommerceWebsite.Data;
 
 public partial class ChiTietHd
 {
-    public int MaCt { get; set; }
-
     public int MaHd { get; set; }
 
     public int MaHh { get; set; }
 
-    public double DonGia { get; set; }
-
-    public int SoLuong { get; set; }
-
-    public double GiamGia { get; set; }
+    public int? TongTien { get; set; }
 
     public virtual HoaDon MaHdNavigation { get; set; } = null!;
 

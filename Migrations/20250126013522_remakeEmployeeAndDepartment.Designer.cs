@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VA_EcommerceWebsite.Data;
 
@@ -11,9 +12,11 @@ using VA_EcommerceWebsite.Data;
 namespace VA_EcommerceWebsite.Migrations
 {
     [DbContext(typeof(VAEcommerceContext))]
-    partial class VAEcommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20250126013522_remakeEmployeeAndDepartment")]
+    partial class remakeEmployeeAndDepartment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,6 +72,19 @@ namespace VA_EcommerceWebsite.Migrations
 
             modelBuilder.Entity("VA_EcommerceWebsite.Data.ChiTietHd", b =>
                 {
+                    b.Property<int>("MaCt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("MaCT");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaCt"));
+
+                    b.Property<double>("DonGia")
+                        .HasColumnType("float");
+
+                    b.Property<double>("GiamGia")
+                        .HasColumnType("float");
+
                     b.Property<int>("MaHd")
                         .HasColumnType("int")
                         .HasColumnName("MaHD");
@@ -77,11 +93,15 @@ namespace VA_EcommerceWebsite.Migrations
                         .HasColumnType("int")
                         .HasColumnName("MaHH");
 
-                    b.Property<int?>("TongTien")
-                        .HasColumnType("int");
+                    b.Property<int>("SoLuong")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
-                    b.HasKey("MaHd", "MaHh")
-                        .HasName("PK__ChiTietH__7557FC8E701B7A0D");
+                    b.HasKey("MaCt")
+                        .HasName("PK_OrderDetails");
+
+                    b.HasIndex("MaHd");
 
                     b.HasIndex("MaHh");
 
@@ -568,14 +588,15 @@ namespace VA_EcommerceWebsite.Migrations
                     b.HasOne("VA_EcommerceWebsite.Data.HoaDon", "MaHdNavigation")
                         .WithMany("ChiTietHds")
                         .HasForeignKey("MaHd")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("FK__ChiTietHD__MaHD__1B9317B3");
+                        .HasConstraintName("FK_OrderDetails_Orders");
 
                     b.HasOne("VA_EcommerceWebsite.Data.HangHoa", "MaHhNavigation")
                         .WithMany("ChiTietHds")
                         .HasForeignKey("MaHh")
                         .IsRequired()
-                        .HasConstraintName("FK__ChiTietHD__MaHH__1C873BEC");
+                        .HasConstraintName("FK_OrderDetails_Products");
 
                     b.Navigation("MaHdNavigation");
 

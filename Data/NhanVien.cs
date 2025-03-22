@@ -5,7 +5,7 @@ namespace VA_EcommerceWebsite.Data;
 
 public partial class NhanVien
 {
-    public string MaNv { get; set; } = null!;
+    public int MaNv { get; set; }
 
     public string HoTen { get; set; } = null!;
 
@@ -13,11 +13,19 @@ public partial class NhanVien
 
     public string? MatKhau { get; set; }
 
-    public virtual ICollection<ChuDe> ChuDes { get; set; } = new List<ChuDe>();
+    public string? Sdt { get; set; }
 
-    public virtual ICollection<HoaDon> HoaDons { get; set; } = new List<HoaDon>();
+    public bool? GioiTinh { get; set; }
 
-    public virtual ICollection<HoiDap> HoiDaps { get; set; } = new List<HoiDap>();
+    public string MaPb { get; set; } = null!;
 
-    public virtual ICollection<PhanCong> PhanCongs { get; set; } = new List<PhanCong>();
+    public string ChucVu { get; set; } = null!;
+
+    public DateTime NgayVaoLam { get; set; }
+
+    public decimal Luong { get; set; }
+
+    public bool? IsActive { get; set; }
+
+    public virtual PhongBan MaPbNavigation { get; set; } = null!;
 }

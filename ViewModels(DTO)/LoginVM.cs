@@ -5,7 +5,7 @@ namespace VA_EcommerceWebsite.ViewModels{
 
         [Display(Name ="Tên người dùng")]
         
-        public string MaKh{get;set;}
+        public string TaiKhoan{get;set;}
 
         [Display(Name ="Mật khẩu")]
         [DataType(DataType.Password)]

@@ -1,0 +1,416 @@
+@model List<VA_EcommerceWebsite.ViewModels.ProductsManageVM>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .form-container {
+        display: flex;
+        gap: 20px;
+    }
+
+    .form-column {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .product-updates td>form {
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 100%;
+    }
+
+    .product-updates td>form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .product-updates td>form input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .product-updates td>form button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .product-updates td>form button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<main>
+    <header>
+        <div class="search-wrapper">
+            <span class="ti-search"></span>
+            <input type="search" id="search-input" placeholder="Search">
+            <button id="search-btn">Search</button>
+        </div>
+        <div class="social-icons">
+            <span class="ti-bell"></span>
+            <span class="ti-comment"></span>
+            <div></div>
+            <span>@Context.User.Identity.Name</span>
+        </div>
+    </header>
+    <h2 class="dash-title">Products</h2>
+    <section class="recent">
+        <div class="activity-grid">
+            <div class="activity-card" style="width:80rem;">
+                <h3>Products List</h3>
+                <button class="Add-Btn">Add</button>
+                <div class="Add-Product-Container" style="display:none;">
+                    <form>
+                        <div class="form-container">
+                            <div class="form-column">
+                                @* <label for="MaHh">ID:</label>
+                                <input type="text" id="MaHh" name="MaHh" value=""> *@
+
+                                <label for="Name">Name:</label>
+                                <input type="text" id="Name" name="Name" value="">
+
+                                <label for="Type">Type:</label>
+                                <select name="Type" id="Type">
+                                    <option value="1000">Đồng hồ</option>
+                                    <option value="1001">Laptop</option>
+                                    <option value="1002">Máy ảnh</option>
+                                    <option value="1003">Điện thoại</option>
+                                    <option value="1004">Nước hoa</option>
+                                    <option value="1005">Trang sức</option>
+                                    <option value="1006">Giày</option>
+                                    <option value="1007">Vali</option>
+                                </select>
+
+                                <label for="QuantDescrip">Quantity Description:</label>
+                                <input type="text" id="QuantDescrip" name="QuantDescrip" value="">
+
+                                <label for="Quantity">Quantity:</label>
+                                <input type="text" id="Quantity" name="Quantity" value="">
+
+                            </div>
+
+                            <div class="form-column">
+                                <label for="Discount">Discount:</label>
+                                <input type="text" id="Discount" name="Discount" value="">
+
+                                <label for="SupplierID">Supplier ID:</label>
+                                <select name="SupplierID" id="SupplierID">
+                                    <option value="AP">Apple</option>
+                                    <option value="MO">Motorola</option>
+                                    <option value="NK">Nokia</option>
+                                    <option value="SM">Seaman</option>
+                                    <option value="SS">Samsung</option>
+
+                                </select>
+
+                                <label for="NameAlias">Another Name:</label>
+                                <input type="text" id="NameAlias" name="NameAlias" value="">
+
+                                <label for="Image">Image:</label>
+                                <input type="file" id="Image" name="Image">
+
+                                <label for="DetailsDescrip">Details Description:</label>
+                                <input type="text" id="DetailsDescrip" name="DetailsDescrip" value="">
+                            </div>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Quantity Description</th>
+                            <th>Quantity</th>
+                            <th>Create Date</th>
+                            <th>Discount</th>
+                            <th>Viewed</th>
+                            <th>Supplier ID</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-list">
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <td>@product.MaHh</td>
+                                <td>@product.TenHh</td>
+                                <td>@product.MaLoai</td>
+                                <td>@product.MoTaDonVi</td>
+                                <td>@product.DonGia</td>
+                                <td>@product.NgaySX</td>
+                                <td>@product.GiamGia</td>
+                                <td>@product.SoLanXem</td>
+                                <td>@product.MaNCC</td>
+                                <td>
+                                    <a class="Detail-Btn ti-eye" data-id="@product.MaHh"></a>
+                                    <a class="Update-Btn ti-reload" data-id="@product.MaHh"></a>
+                                    <a class="Delete-Btn ti-trash" data-id="@product.MaHh"></a>
+                                </td>
+                            </tr>
+                            <tr class="product-details" id="details-@product.MaHh" style="display: none;">
+                                <td colspan="10">
+                                    <strong>Another Name:</strong> @product.TenAlias <br>
+                                    <strong>Image:</strong> <img src="~/Hinh/HangHoa/@product.Hinh" alt="Product Image"
+                                        width="100"> <br>
+                                    <strong>Details Description:</strong> @product.MoTa
+                                </td>
+                            </tr>
+                            <tr class="product-updates" id="updates-@product.MaHh" style="display:none;">
+                                <td colspan="10">
+                                    <form>
+                                        <div class="form-container">
+                                            <div class="form-column">
+                                                <label for="MaHh">ID:</label>
+                                                <input type="text" id="MaHh" name="MaHh" value="@product.MaHh">
+
+                                                <label for="Name">Name:</label>
+                                                <input type="text" id="Name" name="Name" value="@product.TenHh">
+
+                                                <label for="Type">Type:</label>
+                                                <input type="text" id="Type" name="Type" value="@product.MaLoai">
+
+                                                <label for="QuantDescrip">Quantity Description:</label>
+                                                <input type="text" id="QuantDescrip" name="QuantDescrip"
+                                                    value="@product.MoTaDonVi">
+
+                                                <label for="Quantity">Quantity:</label>
+                                                <input type="text" id="Quantity" name="Quantity" value="@product.DonGia">
+
+                                                <label for="CreateDate">Create Date:</label>
+                                                <input type="text" id="CreateDate" name="CreateDate"
+                                                    value="@product.NgaySX">
+                                            </div>
+
+                                            <div class="form-column">
+                                                <label for="Discount">Discount:</label>
+                                                <input type="text" id="Discount" name="Discount" value="@product.GiamGia">
+
+                                                <label for="Viewed">Viewed:</label>
+                                                <input type="text" id="Viewed" name="Viewed" value="@product.SoLanXem">
+
+                                                <label for="SupplierID">Supplier ID:</label>
+                                                <input type="text" id="SupplierID" name="SupplierID" value="@product.MaNCC">
+
+                                                <label for="NameAlias">Another Name:</label>
+                                                <input type="text" id="NameAlias" name="NameAlias"
+                                                    value="@product.TenAlias">
+
+                                                <label for="Image">Image:</label>
+                                                <input type="text" id="Image" name="Image" value="@product.Hinh">
+
+                                                <label for="DetailsDescrip">Details Description:</label>
+                                                <input type="text" id="DetailsDescrip" name="DetailsDescrip"
+                                                    value="@product.MoTa">
+                                            </div>
+                                        </div>
+                                        <button type="submit">Submit</button>
+                                    </form>
+
+
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+<script>
+    $(document).ready(function () {
+        // Handle showing/hiding product details
+        $(document).on("click", ".Detail-Btn", function (event) {
+            event.preventDefault();
+            let productId = $(this).data("id");
+            let detailsRow = $("#details-" + productId);
+            $(".product-details").not(detailsRow).slideUp();
+            detailsRow.slideToggle();
+        });
+
+        // Handle showing/hiding update form
+        $(document).on("click", ".Update-Btn", function (event) {
+            event.preventDefault();
+            let productId = $(this).data("id");
+            let updatesRow = $("#updates-" + productId);
+            $(".product-updates").not(updatesRow).slideUp();
+            updatesRow.slideToggle();
+        });
+
+        // Handle showing/hiding add product form
+        $(document).on("click", ".Add-Btn", function (event) {
+            event.preventDefault();
+            $(".Add-Product-Container").slideToggle();
+        });
+
+        // Handle adding a product
+        $(document).on("submit", ".Add-Product-Container form", function (event) {
+            event.preventDefault();
+            let form = $(this);
+            let productData = {
+                TenHh: form.find("input[name='Name']").val().trim(),
+                MaLoai: form.find("select[name='Type']").val().trim(),
+                MoTaDonVi: form.find("input[name='QuantDescrip']").val().trim(),
+                DonGia: parseFloat(form.find("input[name='Quantity']").val()) || 0,
+                GiamGia: parseFloat(form.find("input[name='Discount']").val()) || 0,
+                MaNCC: form.find("select[name='SupplierID']").val().trim(),
+                TenAlias: form.find("input[name='NameAlias']").val().trim(),
+                Hinh: form.find("input[name='Image']").val().trim(),
+                MoTa: form.find("input[name='DetailsDescrip']").val().trim()
+            };
+
+            $.ajax({
+                url: "/Employee/AddProduct",
+                type: "POST",
+                data: productData,
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("AJAX Error: " + error);
+                }
+            })
+        });
+
+        // Handle deleting a product
+        $(document).on("click", ".Delete-Btn", function (event) {
+            event.preventDefault();
+            let productId = $(this).data("id");
+
+            if (!confirm("Are you sure you want to delete this product?")) {
+                return;
+            }
+
+            $.ajax({
+                url: "/Employee/DeleteProduct/" + productId,
+                type: "DELETE",
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("AJAX Error: " + error);
+                }
+            });
+        });
+
+        // Handle updating a product
+        $(document).on("submit", ".product-updates form", function (event) {
+            event.preventDefault();
+            let form = $(this);
+            let productData = {
+                MaHh: form.find("input[name='MaHh']").val().trim(),
+                TenHh: form.find("input[name='Name']").val().trim(),
+                MaLoai: form.find("input[name='Type']").val().trim(),
+                MoTaDonVi: form.find("input[name='QuantDescrip']").val().trim(),
+                DonGia: parseFloat(form.find("input[name='Quantity']").val()) || 0,
+                NgaySX: form.find("input[name='CreateDate']").val().trim(),
+                GiamGia: parseFloat(form.find("input[name='Discount']").val()) || 0,
+                SoLanXem: parseInt(form.find("input[name='Viewed']").val(), 10) || 0,
+                MaNCC: form.find("input[name='SupplierID']").val().trim(),
+                TenAlias: form.find("input[name='NameAlias']").val().trim(),
+                Hinh: form.find("input[name='Image']").val().trim(),
+                MoTa: form.find("input[name='DetailsDescrip']").val().trim()
+            };
+
+            console.log("🔍 JSON Sent to Server:", JSON.stringify(productData));
+
+            $.ajax({
+                url: "/Employee/UpdateProduct",
+                type: "POST",
+                data: productData,
+                success: function (response) {
+                    console.log("✅ Server Response:", response);
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.log("❌ AJAX Error:", xhr.responseText);
+                }
+            });
+        });
+
+        // Handle searching for products
+        $("#search-btn").on("click", function () {
+            let keyword = $("#search-input").val().trim();
+            if (keyword === "") {
+                alert("Please enter a search keyword.");
+                return;
+            }
+
+            $.ajax({
+                url: "/Employee/SearchProducts",
+                type: "GET",
+                data: { keyword: keyword },
+                success: function (response) {
+                    if (response.success) {
+                        renderTable(response.data);
+                    } else {
+                        alert("No products found.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    alert("An error occurred while searching.");
+                }
+            });
+        });
+        function renderTable(products) {
+            let html = "";
+            products.forEach(product => {
+                html += `
+                <tr id="product-${product.maHh}">
+                    <td>${product.maHh}</td>
+                    <td>${product.tenHh}</td>
+                    <td>${product.maLoai}</td>
+                    <td>${product.moTaDonVi}</td>
+                    <td>${product.donGia}</td>
+                    <td>${product.ngaySX}</td>
+                    <td>${product.giamGia}</td>
+                    <td>${product.soLanXem}</td>
+                    <td>${product.maNCC}</td>
+                    <td>
+                        <a class="Detail-Btn ti-eye" data-id="${product.maHh}"></a>
+                        <a class="Update-Btn ti-reload" data-id="${product.maHh}"></a>
+                        <a class="Delete-Btn ti-trash" data-id="${product.maHh}"></a>
+                    </td>
+                </tr>
+            `;
+            });
+            $("#product-list").html(html);
+        }
+        // Enable search on pressing Enter
+        $("#search-input").on("keypress", function (event) {
+            if (event.which === 13) {
+                $("#search-btn").click();
+            }
+        });
+    });
+
+</script>

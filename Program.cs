@@ -8,6 +8,7 @@ using VA_EcommerceWebsite.Helpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
@@ -21,7 +22,13 @@ builder.Services.AddSession(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie("EmployeeAuth", options =>
+{
+    options.LoginPath = "/Employee/Login"; // Redirect if employee is not logged in
+    options.AccessDeniedPath = "/Employee/AccessDenied";
+})
+.AddCookie("CustomerAuth", options =>
 {
     options.LoginPath = "/Customer/Login";
     options.AccessDeniedPath = "/AccessDenied";
@@ -51,10 +58,13 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IHangHoaRepository, HangHoaRepository>();
-builder.Services.AddScoped<IShopRepository, ShopRepositoy>();
+builder.Services.AddScoped<IShopRepository, ShopRepository>();
+builder.Services.AddScoped<IEmployeeRepository,EmployeeRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

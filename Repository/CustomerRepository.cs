@@ -27,7 +27,7 @@ namespace VA_EcommerceWebsite.Repository{
             return khachHang;
         }
         public async Task<KhachHang> Login(LoginVM model){
-            var khachHang= await db.KhachHangs.SingleOrDefaultAsync(kh=>kh.MaKh==model.MaKh);
+            var khachHang= await db.KhachHangs.SingleOrDefaultAsync(kh=>kh.MaKh==model.TaiKhoan);
             if(khachHang==null){
                 return null;
             }else{
